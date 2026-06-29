@@ -81,7 +81,7 @@ export default function SignIn({ loaderData }: Route.ComponentProps) {
     <div className="w-screen max-w-lg px-4">
       <div className="z-10 rounded-xl border border-border bg-neutral-100 p-6 dark:bg-background">
         <div className="mb-6 flex justify-center">
-          <BrandingLogo className="h-12 w-auto max-w-full" />
+          <BrandingLogo className="h-14 w-auto max-w-full" />
         </div>
 
         {signupError && (
