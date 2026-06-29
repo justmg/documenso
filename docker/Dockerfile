@@ -128,6 +128,7 @@ RUN npx prisma generate --schema ./packages/prisma/schema.prisma
 
 # PVD Sign white-label assets and org branding setup
 COPY --chown=nodejs:nodejs ./scripts/setup-pvd-org-branding.mjs /app/scripts/setup-pvd-org-branding.mjs
+COPY --chown=nodejs:nodejs ./scripts/verify-staff-emails.mjs /app/scripts/verify-staff-emails.mjs
 COPY --chown=nodejs:nodejs ./packages/assets/images/pvd /app/packages/assets/images/pvd
 
 # Get the start script from docker/

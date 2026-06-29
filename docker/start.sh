@@ -32,5 +32,10 @@ if [ -f /app/scripts/setup-pvd-org-branding.mjs ]; then
   node /app/scripts/setup-pvd-org-branding.mjs || printf "⚠️  PVD branding setup skipped or failed\n"
 fi
 
+if [ -f /app/scripts/verify-staff-emails.mjs ]; then
+  printf "✉️  Verifying staff email accounts...\n"
+  node /app/scripts/verify-staff-emails.mjs || printf "⚠️  Staff email verification skipped or failed\n"
+fi
+
 printf "🌟 Starting Documenso server...\n"
 HOSTNAME=0.0.0.0 node build/server/main.js

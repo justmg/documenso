@@ -228,12 +228,14 @@ export const emailPasswordRoute = new Hono<HonoAuthContext>()
       throw err;
     });
 
-    await jobsClient.triggerJob({
-      name: 'send.signup.confirmation.email',
-      payload: {
-        email: user.email,
-      },
-    });
+    if (!user.emailVerified) {
+      await jobsClient.triggerJob({
+        name: 'send.signup.confirmation.email',
+        payload: {
+          email: user.email,
+        },
+      });
+    }
 
     return c.text('OK', 201);
   })

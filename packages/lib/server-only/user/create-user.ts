@@ -2,7 +2,7 @@ import { prisma } from '@documenso/prisma';
 import { hash } from '@node-rs/bcrypt';
 import type { User } from '@prisma/client';
 
-import { SALT_ROUNDS } from '../../constants/auth';
+import { SALT_ROUNDS, isEmailDomainAllowedForSignup } from '../../constants/auth';
 import { AppError, AppErrorCode } from '../../errors/app-error';
 import { createPersonalOrganisation } from '../organisation/create-organisation';
 
@@ -26,12 +26,16 @@ export const createUser = async ({ name, email, password, signature }: CreateUse
     throw new AppError(AppErrorCode.ALREADY_EXISTS);
   }
 
+  const normalizedEmail = email.toLowerCase();
+  const autoVerifyEmail = isEmailDomainAllowedForSignup(normalizedEmail);
+
   const user = await prisma.user.create({
     data: {
       name,
-      email: email.toLowerCase(),
+      email: normalizedEmail,
       password: hashedPassword, // Todo: (RR7) Drop password.
       signature,
+      ...(autoVerifyEmail ? { emailVerified: new Date() } : {}),
     },
   });
 

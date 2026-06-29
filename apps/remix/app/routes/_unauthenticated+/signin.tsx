@@ -91,7 +91,7 @@ export default function SignIn({ loaderData }: Route.ComponentProps) {
         )}
 
         <h1 className="font-semibold text-2xl">
-          <Trans>Sign in to PVD Sign</Trans>
+          <Trans>Rhode Island Airport Corporation</Trans>
         </h1>
 
         <p className="mt-2 text-muted-foreground text-sm">
