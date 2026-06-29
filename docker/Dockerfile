@@ -126,6 +126,9 @@ COPY --from=installer --chown=nodejs:nodejs /app/packages/prisma/migrations ./pa
 # Generate the prisma client again
 RUN npx prisma generate --schema ./packages/prisma/schema.prisma
 
+# PVD Sign white-label assets and org branding setup
+COPY --chown=nodejs:nodejs ./scripts/setup-pvd-org-branding.mjs /app/scripts/setup-pvd-org-branding.mjs
+COPY --chown=nodejs:nodejs ./packages/assets/images/pvd /app/packages/assets/images/pvd
 
 # Get the start script from docker/
 COPY --chown=nodejs:nodejs ./docker/start.sh /app/apps/remix/start.sh

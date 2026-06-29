@@ -16,6 +16,7 @@ import { Link, redirect, useSearchParams } from 'react-router';
 
 import { SignInForm } from '~/components/forms/signin';
 import { SIGNUP_ERROR_MESSAGES } from '~/components/forms/signup';
+import { BrandingLogo } from '~/components/general/branding-logo';
 import { appMetaTags } from '~/utils/meta';
 
 import type { Route } from './+types/signin';
@@ -79,6 +80,10 @@ export default function SignIn({ loaderData }: Route.ComponentProps) {
   return (
     <div className="w-screen max-w-lg px-4">
       <div className="z-10 rounded-xl border border-border bg-neutral-100 p-6 dark:bg-background">
+        <div className="mb-6 flex justify-center">
+          <BrandingLogo className="h-12 w-auto max-w-full" />
+        </div>
+
         {signupError && (
           <Alert variant="destructive" className="mb-4">
             <AlertDescription>{_(signupError)}</AlertDescription>
@@ -86,11 +91,11 @@ export default function SignIn({ loaderData }: Route.ComponentProps) {
         )}
 
         <h1 className="font-semibold text-2xl">
-          <Trans>Sign in to your account</Trans>
+          <Trans>Sign in to PVD Sign</Trans>
         </h1>
 
         <p className="mt-2 text-muted-foreground text-sm">
-          <Trans>Welcome back, we are lucky to have you.</Trans>
+          <Trans>Internal document signing for Rhode Island T. F. Green International Airport.</Trans>
         </p>
         <hr className="-mx-6 my-4" />
 
@@ -108,7 +113,7 @@ export default function SignIn({ loaderData }: Route.ComponentProps) {
               Don't have an account?{' '}
               <Link
                 to={returnTo ? `/signup?returnTo=${encodeURIComponent(returnTo)}` : '/signup'}
-                className="text-documenso-700 duration-200 hover:opacity-70"
+                className="text-primary duration-200 hover:opacity-70"
               >
                 Sign up
               </Link>

@@ -90,11 +90,7 @@ export const getCookieDomain = () => {
  * Returns empty array if not set (meaning all domains allowed).
  */
 export const getAllowedSignupDomains = (): string[] => {
-  const domains = env('NEXT_PRIVATE_ALLOWED_SIGNUP_DOMAINS');
-
-  if (!domains) {
-    return [];
-  }
+  const domains = env('NEXT_PRIVATE_ALLOWED_SIGNUP_DOMAINS') || 'pvdairport.com';
 
   return domains
     .split(',')
