@@ -1,4 +1,6 @@
-import { Img, Link } from '../components';
+import { APP_DISPLAY_NAME } from '@documenso/lib/constants/email';
+
+import { Img, Link, Text } from '../components';
 import { useBranding } from '../providers/branding';
 import { getSafeBrandingUrl } from '../utils/branding-url';
 
@@ -12,20 +14,20 @@ export type TemplateBrandingLogoProps = {
  *
  * - When custom branding is enabled with a logo, the branding logo is shown.
  *   If a safe (http/https) Brand Website is configured, the logo links to it.
- * - Otherwise the Documenso logo is shown.
+ * - Otherwise the organisation app name is shown as text.
  */
-export const TemplateBrandingLogo = ({ assetBaseUrl, className = 'mb-4 h-6' }: TemplateBrandingLogoProps) => {
+export const TemplateBrandingLogo = ({ className = 'mb-4 h-6' }: TemplateBrandingLogoProps) => {
   const branding = useBranding();
 
   const hasCustomBrandingLogo = branding.brandingEnabled && Boolean(branding.brandingLogo);
 
   if (!hasCustomBrandingLogo) {
-    const documensoLogoUrl = new URL('/static/logo.png', assetBaseUrl).toString();
-
-    return <Img src={documensoLogoUrl} alt="Documenso Logo" className={className} />;
+    return (
+      <Text className={`${className} font-semibold text-foreground`}>{APP_DISPLAY_NAME}</Text>
+    );
   }
 
-  const brandingLogo = <Img src={branding.brandingLogo} alt="Branding Logo" className={className} />;
+  const brandingLogo = <Img src={branding.brandingLogo} alt={`${APP_DISPLAY_NAME} logo`} className={className} />;
 
   const safeBrandingUrl = getSafeBrandingUrl(branding.brandingUrl);
 

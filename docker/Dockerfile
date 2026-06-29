@@ -118,6 +118,7 @@ RUN npm ci --only=production
 # https://nodejs.org/docs/advanced-features/output-file-tracing
 COPY --from=installer --chown=nodejs:nodejs /app/apps/remix/build ./apps/remix/build
 COPY --from=installer --chown=nodejs:nodejs /app/apps/remix/public ./apps/remix/public
+COPY --chown=nodejs:nodejs ./packages/assets/images/pvd/logo-horizontal.png ./apps/remix/public/static/logo.png
 
 # Copy the prisma binary, schema and migrations
 COPY --from=installer --chown=nodejs:nodejs /app/packages/prisma/schema.prisma ./packages/prisma/schema.prisma
