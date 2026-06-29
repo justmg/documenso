@@ -32,6 +32,7 @@ import { z } from 'zod';
 
 const CommonErrorMessages: Record<string, MessageDescriptor> = {
   [AuthenticationErrorCode.AccountDisabled]: msg`This account has been disabled. Please contact support.`,
+  [AuthenticationErrorCode.InvalidRequest]: msg`Your session could not be verified. Please refresh the page and try again.`,
 };
 
 const handleFallbackErrorMessages = (code: string) => {
