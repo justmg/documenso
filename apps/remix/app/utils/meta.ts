@@ -3,7 +3,7 @@ import { i18n, type MessageDescriptor } from '@lingui/core';
 
 export const appMetaTags = (title?: MessageDescriptor) => {
   const description =
-    'Rhode Island Airport Corporation — internal document signing for Rhode Island T. F. Green International Airport.';
+    'Internal document signing for Rhode Island Airport Corporation.';
 
   return [
     {
