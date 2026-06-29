@@ -110,11 +110,8 @@ export const DocumentSigningMobileWidget = () => {
               <EnvelopeSignerForm />
 
               {!hidePoweredBy && (
-                <div className="mt-2 inline-block rounded bg-primary px-2 py-1 font-medium text-primary-foreground text-xs opacity-60 hover:opacity-100 lg:hidden">
-                  <span>
-                    <Trans>Powered by</Trans>
-                  </span>
-                  <BrandingLogo className="ml-2 inline-block h-[14px]" />
+                <div className="mt-2 inline-block rounded bg-primary px-2 py-1 font-medium text-primary-foreground text-xs opacity-60 lg:hidden">
+                  <BrandingLogo className="inline-block h-[14px]" />
                 </div>
               )}
             </div>
