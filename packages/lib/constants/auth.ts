@@ -85,6 +85,64 @@ export const getCookieDomain = () => {
   return url.hostname;
 };
 
+export type AuthCookieSameSite = 'lax' | 'none';
+
+/**
+ * SameSite policy for auth/session cookies.
+ * Defaults to `lax` for direct sign-in; set `none` via env for cross-site embed flows.
+ */
+export const getAuthCookieSameSite = (): AuthCookieSameSite => {
+  const configured = env('NEXT_PRIVATE_AUTH_COOKIE_SAMESITE');
+
+  if (configured === 'lax' || configured === 'none') {
+    return configured;
+  }
+
+  return 'lax';
+};
+
+/**
+ * Explicit cookie domain when set; otherwise host-only cookies (more reliable on single-host deploys).
+ */
+export const getAuthCookieDomain = (): string | undefined => {
+  const configured = env('NEXT_PRIVATE_AUTH_COOKIE_DOMAIN');
+
+  if (configured) {
+    return configured;
+  }
+
+  return undefined;
+};
+
+const normalizeHostname = (hostname: string) => hostname.replace(/^www\./i, '').toLowerCase();
+
+/**
+ * Whether an Origin header is trusted for auth API requests.
+ * Allows apex/www variants of the configured webapp URL and the request Host.
+ */
+export const isTrustedAuthOrigin = (origin: string, requestHost?: string | null): boolean => {
+  try {
+    const originHostname = normalizeHostname(new URL(origin).hostname);
+    const webappHostname = normalizeHostname(new URL(NEXT_PUBLIC_WEBAPP_URL()).hostname);
+
+    if (originHostname === webappHostname) {
+      return true;
+    }
+
+    if (requestHost) {
+      const hostHostname = normalizeHostname(requestHost.split(':')[0]);
+
+      if (originHostname === hostHostname) {
+        return true;
+      }
+    }
+
+    return false;
+  } catch {
+    return false;
+  }
+};
+
 /**
  * Get allowed signup domains from env var.
  * Returns empty array if not set (meaning all domains allowed).

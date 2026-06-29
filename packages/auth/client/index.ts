@@ -360,6 +360,19 @@ export class AuthClient {
   };
 }
 
+const getAuthBaseUrl = () =>
+  typeof window !== 'undefined'
+    ? `${window.location.origin}/api/auth`
+    : `${NEXT_PUBLIC_WEBAPP_URL()}/api/auth`;
+
+export const prefetchCsrfToken = () => {
+  if (typeof window === 'undefined') {
+    return Promise.resolve();
+  }
+
+  return fetch('/api/auth/csrf', { credentials: 'include' });
+};
+
 export const authClient = new AuthClient({
-  baseUrl: `${NEXT_PUBLIC_WEBAPP_URL()}/api/auth`,
+  baseUrl: getAuthBaseUrl(),
 });

@@ -208,6 +208,17 @@ export class AppError extends Error {
 
     const validStatusCode = typeof statusCode === 'number' ? statusCode : undefined;
 
+    if (
+      validStatusCode === 403 &&
+      (typeof code !== 'string' || validCode === AppErrorCode.UNKNOWN_ERROR || validMessage === 'Forbidden')
+    ) {
+      return new AppError(AppErrorCode.FORBIDDEN, {
+        message: validMessage,
+        userMessage: validUserMessage,
+        statusCode: 403,
+      });
+    }
+
     const options: AppErrorOptions = {
       message: validMessage,
       userMessage: validUserMessage,

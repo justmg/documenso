@@ -1,4 +1,4 @@
-import { authClient } from '@documenso/auth/client';
+import { authClient, prefetchCsrfToken } from '@documenso/auth/client';
 import { AuthenticationErrorCode } from '@documenso/auth/server/lib/errors/error-codes';
 import { AppError, AppErrorCode } from '@documenso/lib/errors/app-error';
 import { env } from '@documenso/lib/utils/env';
@@ -33,6 +33,7 @@ import { z } from 'zod';
 const CommonErrorMessages: Record<string, MessageDescriptor> = {
   [AuthenticationErrorCode.AccountDisabled]: msg`This account has been disabled. Please contact support.`,
   [AuthenticationErrorCode.InvalidRequest]: msg`Your session could not be verified. Please refresh the page and try again.`,
+  [AppErrorCode.FORBIDDEN]: msg`Sign-in was blocked by the server. Please refresh the page and try again.`,
 };
 
 const handleFallbackErrorMessages = (code: string) => {
@@ -108,6 +109,10 @@ export const SignInForm = ({
 
     return url.toString();
   }, [returnTo]);
+
+  useEffect(() => {
+    void prefetchCsrfToken();
+  }, []);
 
   const { mutateAsync: createPasskeySigninOptions } = trpc.auth.passkey.createSigninOptions.useMutation();
 

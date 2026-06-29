@@ -1,4 +1,4 @@
-import { NEXT_PUBLIC_WEBAPP_URL } from '@documenso/lib/constants/app';
+import { isTrustedAuthOrigin } from '@documenso/lib/constants/auth';
 import { AppError, AppErrorCode } from '@documenso/lib/errors/app-error';
 import { extractRequestMetadata } from '@documenso/lib/universal/extract-request-metadata';
 import { Hono } from 'hono';
@@ -21,12 +21,12 @@ export const auth = new Hono<HonoAuthContext>()
   .use(async (c, next) => {
     c.set('requestMetadata', extractRequestMetadata(c.req.raw));
 
-    const validOrigin = new URL(NEXT_PUBLIC_WEBAPP_URL()).origin;
     const headerOrigin = c.req.header('Origin');
 
-    if (headerOrigin && headerOrigin !== validOrigin) {
+    if (headerOrigin && !isTrustedAuthOrigin(headerOrigin, c.req.header('Host'))) {
       return c.json(
         {
+          code: AppErrorCode.FORBIDDEN,
           message: 'Forbidden',
           statusCode: 403,
         },

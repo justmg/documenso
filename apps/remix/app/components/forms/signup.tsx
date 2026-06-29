@@ -1,5 +1,5 @@
 import communityCardsImage from '@documenso/assets/images/community-cards.png';
-import { authClient } from '@documenso/auth/client';
+import { authClient, prefetchCsrfToken } from '@documenso/auth/client';
 import { useAnalytics } from '@documenso/lib/client-only/hooks/use-analytics';
 import { ZNameSchema } from '@documenso/lib/constants/auth';
 import { AppError, AppErrorCode } from '@documenso/lib/errors/app-error';
@@ -88,6 +88,10 @@ export const SignUpForm = ({
   const turnstileRef = useRef<TurnstileInstance>(null);
 
   const hasSocialAuthEnabled = isGoogleSignupEnabled || isMicrosoftSignupEnabled || isOidcSignupEnabled;
+
+  useEffect(() => {
+    void prefetchCsrfToken();
+  }, []);
 
   const form = useForm<TSignUpFormSchema>({
     values: {
